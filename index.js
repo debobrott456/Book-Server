@@ -10,7 +10,10 @@ app.use(cors())
 
 const admin = require("firebase-admin");
 
-const serviceAccount = require("./firebase-admin-sdk.json");
+// const serviceAccount = require("./firebase-admin-sdk.json");
+
+const decoded = Buffer.from(process.env.FIREBASE_ADMIN_KEY, 'base64').toString('utf8')
+const serviceAccount = JSON.parse(decoded);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
@@ -486,8 +489,8 @@ app.delete('/librarian/:id',async (req,res)=>{
 })
 
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+    // await client.db("admin").command({ ping: 1 });
+    // console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
    

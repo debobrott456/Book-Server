@@ -6,7 +6,16 @@ const cors =require('cors');
 const app=express()
 const port=process.env.PORT||5000
 app.use(express.json())
-app.use(cors())
+app.use(cors ({
+    origin: [
+      "https://benevolent-kangaroo-ee0752.netlify.app",
+      "http://localhost:5173",  // CRA
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 const admin = require("firebase-admin");
 
@@ -63,7 +72,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 const myDB4 = client.db("myDB4");
 const myColl4 = myDB4.collection("collBooks");
 const wishColl4 = myDB4.collection("collWishBooks");
@@ -94,7 +103,6 @@ app.post('/create-checkout-session', async (req, res) => {
     
     line_items: [
       {
-        // Provide the exact Price ID (for example, price_1234) of the product you want to sell
         price_data: {
           currency:'usd',
           unit_amount:paymentInfo.bookPrice,
@@ -111,7 +119,7 @@ app.post('/create-checkout-session', async (req, res) => {
      parcelName:paymentInfo.bookName
     },
     customer_email:paymentInfo.email,
-    success_url: `${process.env.SITE_DOMAIN}/userDashboard/payment-success?session_id={CHECKOUT_SESSION_ID}`,
+    success_url: `https://benevolent-kangaroo-ee0752.netlify.app/userDashboard/payment-success?session_id={CHECKOUT_SESSION_ID}`,
     
   });
   console.log(paymentInfo)

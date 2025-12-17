@@ -61,7 +61,6 @@ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = "mongodb+srv://db-user-65:Fy6lcTzPTzGIuyQo@cluster0.rnsookq.mongodb.net/?appName=Cluster0";
 const stripe = require('stripe')(process.env.STRIPE_SECRET);
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
